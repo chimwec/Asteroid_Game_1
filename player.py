@@ -66,22 +66,6 @@ class Player(CircleShape):
 
     
 
-class Image:
-    def __init__(self, IMAGE):
-        self.image = pygame.image.load(IMAGE)
-        self.pos = (0, 0)
 
-    def event(self, event):
-        pass
-
-    def update(self):
-        pass
-
-    def render(self, screen):
-        if self.image is not None:
-            screen.blit(self.image, self.pos)
-
-    def position(self, x, y):
-        self.pos = (x, y)
 
     
