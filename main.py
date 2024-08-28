@@ -15,6 +15,9 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    back_ground = pygame.image.load('darkshot.jpg')
+    back_ground = pygame.transform.scale(back_ground, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    back_ground.set_colorkey((255, 0, 0))
     
    
 
@@ -22,11 +25,13 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    
 
     Asteroid.containers = (asteroids, updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
     AsteroidField.containers = updatable
     asteroid_field = AsteroidField()
+    
 
 
     Player.containers = (updatable, drawable)
@@ -54,15 +59,21 @@ def main():
                     shot.kill()
                     obj.split()
 
-
-        screen.fill("black")
+            screen.fill(('black'))
+            screen.blit(back_ground, (0, 0))
 
         for obj in drawable:
             obj.draw(screen)
 
+
+       
+        
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
+
+
+
 
 
 if __name__ == "__main__":

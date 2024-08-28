@@ -50,7 +50,6 @@ class Player(CircleShape):
         
 
 
-
     def shoot(self):
         if self.timer > 0:
             return 
@@ -64,5 +63,25 @@ class Player(CircleShape):
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+
+    
+
+class Image:
+    def __init__(self, IMAGE):
+        self.image = pygame.image.load(IMAGE)
+        self.pos = (0, 0)
+
+    def event(self, event):
+        pass
+
+    def update(self):
+        pass
+
+    def render(self, screen):
+        if self.image is not None:
+            screen.blit(self.image, self.pos)
+
+    def position(self, x, y):
+        self.pos = (x, y)
 
     
