@@ -52,7 +52,7 @@ def main():
             for shot in shots:
                 if obj.is_collision(shot):
                     shot.kill()
-                    obj.kill()
+                    obj.split()
 
 
         screen.fill("black")
