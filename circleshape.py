@@ -14,8 +14,32 @@ class CircleShape(pygame.sprite.Sprite):
         self.radius = radius
 
     def draw(self, screen):
-        # sub-classes must override
-        pass
+        # Draw a more detailed ship shape
+        ship_color = (200, 200, 200)  # Light gray
+        
+        # Main body
+        pygame.draw.polygon(screen, ship_color, [
+            (self.position.x, self.position.y - self.radius),
+            (self.position.x - self.radius, self.position.y + self.radius),
+            (self.position.x + self.radius, self.position.y + self.radius)
+        ])
+        
+        # Cockpit
+        cockpit_radius = self.radius // 3
+        pygame.draw.circle(screen, (100, 100, 100), 
+                           (int(self.position.x), int(self.position.y)), cockpit_radius)
+        
+        # Engines
+        engine_width = self.radius // 2
+        engine_height = self.radius // 3
+        pygame.draw.rect(screen, (150, 0, 0), 
+                         (self.position.x - engine_width, 
+                          self.position.y + self.radius - engine_height // 2,
+                          engine_width // 2, engine_height))
+        pygame.draw.rect(screen, (150, 0, 0), 
+                         (self.position.x + engine_width // 2, 
+                          self.position.y + self.radius - engine_height // 2,
+                          engine_width // 2, engine_height))
 
     def update(self, dt):
         # sub-classes must override

@@ -46,13 +46,28 @@ def main():
 
     dt = 0
 
+    # Initialize the joystick subsystem
+    pygame.joystick.init()
+    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+    for joystick in joysticks:
+        joystick.init()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            
+            elif event.type == pygame.JOYBUTTONDOWN:
+                if event.button == 0:  # Assuming button 0 is the fire button
+                    player.shoot()
+
         for updates in updatable:
-            updates.update(dt)
+            if isinstance(updates, Player) and joysticks:
+                joystick = joysticks[0]  # Use the first connected joystick
+                axis_x = joystick.get_axis(0)  # Left stick horizontal axis
+                axis_y = joystick.get_axis(1)  # Left stick vertical axis
+                updates.update(dt, axis_x, axis_y)
+            else:
+                updates.update(dt)
 
 
         for obj in asteroids:
@@ -66,17 +81,25 @@ def main():
                     shot.kill()
                     obj.split()
 
-            screen.fill(('black'))
-            screen.blit(back_ground, (0, 0))
-            score_text = font.render(f'Score: {score}', True, (255, 255, 255), 'blue')
-            screen.blit(score_text, (10, 10))
+        screen.fill(('black'))
+        screen.blit(back_ground, (0, 0))
+        score_text = font.render(f'Score: {score}', True, (255, 255, 255), 'blue')
+        screen.blit(score_text, (10, 10))
+
 
         for obj in drawable:
             obj.draw(screen)
 
 
-       
-        
+        # Pass joystick data to the player update method
+        if joysticks:
+            joystick = joysticks[0]  # Use the first connected joystick
+            axis_x = joystick.get_axis(0)  # Left stick horizontal axis
+            axis_y = joystick.get_axis(1)  # Left stick vertical axis
+            player.update(dt, axis_x, axis_y)
+        else:
+            player.update(dt, 0, 0)
+
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
